@@ -13,7 +13,7 @@ class CustomerSuccessBalancing
     sorted_customers = @customers.sort_by{|cus| cus[:score]}
     
     maximum_count = 0
-    maximum_ids = []
+    ids_of_maximum = []
     size_of_customers = sorted_customers.size 
 
     index_of_customers = 0
@@ -29,14 +29,14 @@ class CustomerSuccessBalancing
 
       if auxiliary_count > maximum_count
         maximum_count = auxiliary_count 
-        maximum_ids = [customer_success[:id]]
+        ids_of_maximum = [customer_success[:id]]
       elsif auxiliary_count == maximum_count
-        maximum_ids << customer_success[:id]
+        ids_of_maximum << customer_success[:id]
       end
 
     end
 
-    maximum_ids.size > 1 ? 0 : maximum_ids.first
+    ids_of_maximum.size > 1 ? 0 : ids_of_maximum.first
   end
 
   def customer_success_away_to_hash(arr)

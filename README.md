@@ -1,9 +1,17 @@
 # Resolução
 
+Para executar o código
+```
+$ ruby customer_success_balancing.rb
+```
 
+A solução esta em complexidade de tempo `O(n*log(n))` devido a necessidade de ordenar os Arrays.
 
-
-
+### Explicação: 
+1. Ordenamos os arrays e removemos os `customer sucess` que estão de férias.
+2. Fazemos um loop nos `customer sucess` e pra cada `customer sucess` buscamos nos `customers` se esse customer pode ser atendido pelo `customer sucess`, aumentamos o `index` dos `customers` e em caso positivo aumentamos um ponto no contador em caso negativo paramos e vamos pro próximo `customer sucess`.
+3. Substituimos o máximo valor de contagem se necessário e salvamos o id desse máximo.
+4. Por fim se temos apenas um id de máximo voltamos ele ou voltamos zero para um caso de empate.
 
 # CustomerSuccess Balancing
 
