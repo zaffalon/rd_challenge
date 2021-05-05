@@ -12,31 +12,34 @@ class CustomerSuccessBalancing
     sorted_customer_sucess = sort_only_activated_customer_sucess
     sorted_customers = @customers.sort_by{|cus| cus[:score]}
     
-    maximum_count = 0
-    ids_of_maximum = []
-    size_of_customers = sorted_customers.size 
+    id_of_maximum = calculate_balacing(sorted_customer_sucess, sorted_customers)
+  end
 
-    index_of_customers = 0
-    sorted_customer_sucess.each do |customer_success|
-      customer_sucess_score = customer_success[:score] 
-      auxiliary_count = 0
+  def calculate_balacing(sorted_customer_sucess, sorted_customers)
+    maximum_count, id_of_maximum, index_of_customers = 0
 
-      while index_of_customers < size_of_customers do
-        customer_score = sorted_customers[index_of_customers][:score]
-        index_of_customers += 1
-        customer_score <= customer_sucess_score ? (next auxiliary_count += 1) : break
-      end
+    sorted_customer_sucess.each do |customer_success| 
+      sorted_customers, max_count_cs = count_maximum_customers_per_cs(sorted_customers, customer_success)
 
-      if auxiliary_count > maximum_count
-        maximum_count = auxiliary_count 
-        ids_of_maximum = [customer_success[:id]]
-      elsif auxiliary_count == maximum_count
-        ids_of_maximum << customer_success[:id]
+      if max_count_cs > maximum_count
+        maximum_count = max_count_cs 
+        id_of_maximum = customer_success[:id]
+      elsif max_count_cs == maximum_count
+        id_of_maximum = 0
       end
 
     end
 
-    ids_of_maximum.size > 1 ? 0 : ids_of_maximum.first
+    id_of_maximum
+  end
+
+  def count_maximum_customers_per_cs(sorted_customers, customer_success)
+    auxiliary_count = 0
+    sorted_customers.each do |customer|
+      sorted_customers = sorted_customers.drop(1)
+      customer[:score] <= customer_success[:score] ? (next auxiliary_count += 1) : break
+    end
+    return sorted_customers, auxiliary_count
   end
 
   def customer_success_away_to_hash(arr)
